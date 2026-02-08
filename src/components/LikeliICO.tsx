@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useAppKit } from '@reown/appkit/react';
 import { useAccount, usePublicClient, useSwitchChain, useWriteContract } from 'wagmi';
 import { erc20Abi, type Address } from 'viem';
+import { appKitProjectId } from '../lib/appkit';
 import {
   ArrowRight,
   Award,
