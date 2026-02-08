@@ -30,6 +30,25 @@ const USDT_BSC_ADDRESS = '0x55d398326f99059ff775485246999027b3197955' as Address
 const PAY_ADDRESS = '0xecacbeca41f282a942f371f2999b8ba7e3ecfd22' as Address;
 const shortenAddress = (address: string) => `${address.slice(0, 6)}...${address.slice(-4)}`;
 
+/**
+ * 在本地仅查看 UI 时，如果没有配置 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID，
+ * 避免真正调用 useAppKit（否则会因为未 createAppKit 报错）。
+ */
+const useSafeAppKit = () => {
+  if (!appKitProjectId) {
+    return {
+      open: () => {
+        console.warn(
+          'AppKit not configured (missing NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID). Wallet modal is disabled in development.',
+        );
+      },
+    };
+  }
+
+  // appKitProjectId 一旦存在就是常量，始终走这一分支，符合 hooks 规则
+  return useAppKit();
+};
+
 export default function LikeliICO() {
   const [countdown, setCountdown] = useState({ days: 15, hours: 8, minutes: 23, seconds: 45 });
   const [raised, setRaised] = useState(1.2);
@@ -40,7 +59,7 @@ export default function LikeliICO() {
   const [isPaying, setIsPaying] = useState(false);
   const [payNotice, setPayNotice] = useState('');
 
-  const { open } = useAppKit();
+  const { open } = useSafeAppKit();
   const { address, status, isConnected, chain } = useAccount();
   const { switchChainAsync } = useSwitchChain();
   const publicClient = usePublicClient({ chainId: BSC_CHAIN_ID });

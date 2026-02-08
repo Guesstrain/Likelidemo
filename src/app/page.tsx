@@ -1,5 +1,5 @@
-import LikeliICO from '../components/LikeliICO';
+import SpaceHome from '../components/SpaceHome';
 
 export default function HomePage() {
-  return <LikeliICO />;
+  return <SpaceHome />;
 }
