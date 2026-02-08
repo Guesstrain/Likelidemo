@@ -95,6 +95,10 @@ export default function SpaceHome() {
   }, []);
 
   const connectWallet = async () => {
+    if (!open) {
+      console.warn('Wallet not configured. Please set NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID.');
+      return;
+    }
     try {
       await open({ view: 'Connect' });
     } catch (err) {

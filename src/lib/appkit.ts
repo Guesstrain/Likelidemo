@@ -2,7 +2,7 @@ import type { AppKitOptions } from '@reown/appkit';
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi';
 import { bsc, type AppKitNetwork } from '@reown/appkit/networks';
 import type { Config } from 'wagmi';
-import { cookieStorage, createStorage } from 'wagmi';
+import { cookieStorage, createStorage, createConfig, http } from 'wagmi';
 
 const FALLBACK_APP_METADATA = {
   name: 'Likeli.io',
@@ -25,7 +25,14 @@ const wagmiAdapter = appKitProjectId
     })
   : undefined;
 
-export const wagmiConfig: Config | undefined = wagmiAdapter?.wagmiConfig;
+export const wagmiConfig: Config = wagmiAdapter?.wagmiConfig || createConfig({
+  chains: [bsc],
+  transports: {
+    [bsc.id]: http(),
+  },
+  ssr: true,
+  storage: createStorage({ storage: cookieStorage }),
+});
 
 export const appKitOptions: AppKitOptions | null = wagmiAdapter
   ? {
