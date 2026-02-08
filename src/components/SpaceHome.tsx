@@ -220,7 +220,7 @@ export default function SpaceHome() {
               </div>
               <div className="px-5 py-2.5 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/60 rounded-full text-sm font-semibold flex items-center gap-2 shadow-lg shadow-blue-500/20 hover:scale-105 transition-transform">
                 <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
-                <span className="text-blue-300">World's First Leveraged Prediction Market</span>
+                <span className="text-blue-300">World&apos;s First Leveraged Prediction Market</span>
               </div>
             </div>
 
@@ -495,7 +495,7 @@ export default function SpaceHome() {
             </div>
 
             <p className="text-sm text-gray-400 mt-4">
-              Built on Hyperliquid's high-performance infrastructure for seamless prediction markets trading with minimal slippage.
+              Built on Hyperliquid&apos;s high-performance infrastructure for seamless prediction markets trading with minimal slippage.
             </p>
           </div>
 
@@ -691,7 +691,7 @@ export default function SpaceHome() {
               Ready to Participate?
             </h2>
             <p className="text-lg md:text-xl text-white/90 mb-8 max-w-3xl mx-auto">
-              Join the world's first leveraged prediction market. Trade on real-world events with up to 10x leverage.
+              Join the world&apos;s first leveraged prediction market. Trade on real-world events with up to 10x leverage.
             </p>
             <button
               onClick={connectWallet}
@@ -717,7 +717,7 @@ export default function SpaceHome() {
                 <span className="text-xl font-bold text-white">Likeli.io</span>
               </div>
               <p className="text-gray-400 text-sm leading-relaxed">
-                The world's first leveraged prediction market using native crypto assets.
+                The world&apos;s first leveraged prediction market using native crypto assets.
               </p>
             </div>
 
@@ -785,7 +785,7 @@ export default function SpaceHome() {
                   </div>
                   <h2 className="text-3xl font-bold text-white mb-2">Join the Waitlist</h2>
                   <p className="text-gray-400">
-                    Be among the first to experience the world's first leveraged prediction market
+                    Be among the first to experience the world&apos;s first leveraged prediction market
                   </p>
                 </div>
 
@@ -820,7 +820,7 @@ export default function SpaceHome() {
                 </div>
                 <h2 className="text-3xl font-bold text-white mb-2">Success!</h2>
                 <p className="text-gray-400">
-                  Thank you for joining! We'll notify you when we launch.
+                  Thank you for joining! We&apos;ll notify you when we launch.
                 </p>
               </div>
             )}
