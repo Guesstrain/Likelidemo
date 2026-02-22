@@ -171,6 +171,14 @@ export default function SpaceHome() {
             <div className="flex items-center gap-2">
               <img src={logoImageSrc} alt="Logo" className="h-8 w-auto" />
             </div>
+            <a 
+              href="https://x.com/LikeliOfficial" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+            >
+              <Twitter size={20} />
+            </a>
           </div>
 
           {/* Hero Content */}
@@ -723,9 +731,18 @@ export default function SpaceHome() {
                 </div>
                 <span className="text-xl font-bold text-white">Likeli.io</span>
               </div>
-              <p className="text-gray-400 text-sm leading-relaxed">
+              <p className="text-gray-400 text-sm leading-relaxed mb-4">
                 The world&apos;s first leveraged prediction market using native crypto assets.
               </p>
+              <a 
+                href="https://x.com/LikeliOfficial" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+              >
+                <Twitter size={20} />
+                <span className="text-sm">@LikeliOfficial</span>
+              </a>
             </div>
 
             {/* Resources Column */}
@@ -752,9 +769,17 @@ export default function SpaceHome() {
             <div>
               <h3 className="text-white font-bold mb-4">Community</h3>
               <ul className="space-y-3">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Twitter</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Discord</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Telegram</a></li>
+                <li>
+                  <a 
+                    href="https://x.com/LikeliOfficial" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-2"
+                  >
+                    <Twitter size={16} />
+                    Twitter
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
