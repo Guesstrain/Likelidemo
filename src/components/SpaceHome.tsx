@@ -171,14 +171,6 @@ export default function SpaceHome() {
             <div className="flex items-center gap-2">
               <img src={logoImageSrc} alt="Logo" className="h-8 w-auto" />
             </div>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={handleWaitlistClick}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105"
-              >
-                Join Waitlist
-              </button>
-            </div>
           </div>
 
           {/* Hero Content */}
@@ -282,6 +274,81 @@ export default function SpaceHome() {
             alt={activeNav}
             categoryName={activeNav}
           />
+        </div>
+      </div>
+
+      {/* How It Works Section */}
+      <div className="max-w-7xl mx-auto px-6 py-20 bg-gradient-to-b from-black via-gray-900/50 to-black">
+        <div className="text-center mb-16">
+          <h2 className="text-5xl md:text-6xl font-black mb-6 text-white">
+            How It Works
+          </h2>
+          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            Pick outcomes, set your position and optional leverage, then cash out anytime or hold until the market resolves.
+          </p>
+        </div>
+
+        {/* Three Steps */}
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* Step 1: Choose a Market */}
+          <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-3xl p-8 hover:border-gray-700 transition-all">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-gray-800 border border-gray-700 rounded-full flex items-center justify-center text-white font-bold">
+                1
+              </div>
+              <h3 className="text-2xl font-bold text-white">Choose a Market</h3>
+            </div>
+            <p className="text-gray-400 mb-6 leading-relaxed">
+              Browse crypto, politics, sports, tech, economics, culture, and more. Pick outcomes you know better than the crowd does.
+            </p>
+            <div className="rounded-2xl overflow-hidden border border-gray-800 bg-gray-900/50">
+              <img
+                src={predict1ImageSrc}
+                alt="Choose a Market"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Step 2: Build Your Position */}
+          <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-3xl p-8 hover:border-gray-700 transition-all">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-gray-800 border border-gray-700 rounded-full flex items-center justify-center text-white font-bold">
+                2
+              </div>
+              <h3 className="text-2xl font-bold text-white">Build Your Position</h3>
+            </div>
+            <p className="text-gray-400 mb-6 leading-relaxed">
+              Buy YES or NO shares with market orders for instant fills, or set limit orders at any price and wait for them to execute.
+            </p>
+            <div className="rounded-2xl overflow-hidden border border-gray-800 bg-gray-900/50">
+              <img
+                src={predict2ImageSrc}
+                alt="Build Your Position"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Step 3: Multiply Your Returns */}
+          <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-3xl p-8 hover:border-gray-700 transition-all">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-gray-800 border border-gray-700 rounded-full flex items-center justify-center text-white font-bold">
+                3
+              </div>
+              <h3 className="text-2xl font-bold text-white">Multiply Your Returns</h3>
+            </div>
+            <p className="text-gray-400 mb-6 leading-relaxed">
+              Multiply your exposure up to 10x with leverage. Small capital and big positions means outsized returns when you&apos;re right.
+            </p>
+            <div className="rounded-2xl overflow-hidden border border-gray-800 bg-gray-900/50">
+              <img
+                src={predict3ImageSrc}
+                alt="Multiply Your Returns"
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          </div>
         </div>
       </div>
 
@@ -501,91 +568,86 @@ export default function SpaceHome() {
         </div>
       </div>
 
-      {/* Tokenomics Section */}
+      {/* Markets Section */}
       <div className="max-w-7xl mx-auto px-6 py-20">
-        {/* Section Title */}
-        <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400">
-            Unbeatable Token Economics
+        {/* Section Header */}
+        <div className="flex justify-between items-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-black text-white">
+            Markets
           </h2>
+          <div className="flex gap-2">
+            <button className="w-12 h-12 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-500 transition-colors">
+              <ArrowUpRight className="rotate-[225deg]" size={20} />
+            </button>
+            <button className="w-12 h-12 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-500 transition-colors">
+              <ArrowUpRight className="rotate-45" size={20} />
+            </button>
+          </div>
         </div>
 
-        {/* Tokenomics Cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        {/* Market Cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { label: 'Total Supply', value: '1.0B', sublabel: 'Fixed forever', color: 'blue' },
-            { label: 'Public Sale', value: '35%', sublabel: '350M tokens', color: 'green' },
-            { label: 'Starting Price', value: '$0.02', sublabel: '$20M FDV', color: 'yellow' },
-            { label: 'Max Price', value: '$0.05', sublabel: '$50M FDV', color: 'purple' },
-          ].map((item, i) => {
-            const colorClasses = {
-              blue: 'text-blue-400',
-              green: 'text-green-400',
-              yellow: 'text-yellow-400',
-              purple: 'text-purple-400',
-            };
-            return (
-              <div key={i} className="text-center">
-                <div className="text-gray-400 text-xs mb-2 uppercase font-semibold">{item.label}</div>
-                <div className={`text-4xl md:text-5xl font-black ${colorClasses[item.color as keyof typeof colorClasses]} mb-2`}>
-                  {item.value}
+            {
+              title: 'Crypto',
+              icon: '₿',
+              image: 'https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=400&h=500&fit=crop',
+              description: 'BTC, SOL, ETH targets, altcoin milestones, DeFi growth, and the battle between crypto vs traditional assets.',
+            },
+            {
+              title: 'Politics',
+              icon: '🏛️',
+              image: 'https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=400&h=500&fit=crop',
+              description: 'Elections, leadership shifts, policy decisions, and global diplomacy shaping the future of nations worldwide.',
+            },
+            {
+              title: 'Sports',
+              icon: '⚽',
+              image: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=400&h=500&fit=crop',
+              description: 'Champions, major results, and top stars across football, basketball, tennis, combat sports, e-sports, and racing.',
+            },
+            {
+              title: 'Tech',
+              icon: '⚙️',
+              image: 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=500&fit=crop',
+              description: 'AI, hardware, and product breakthroughs, major tech earnings, and financial milestones fueling innovation.',
+            },
+          ].map((market, i) => (
+            <div
+              key={i}
+              className="group relative bg-gray-900 rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all"
+            >
+              {/* Background Image */}
+              <div className="relative h-80">
+                <img
+                  src={market.image}
+                  alt={market.title}
+                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+                
+                {/* Icon Badge */}
+                <div className="absolute top-4 left-4 w-10 h-10 bg-gray-900/80 backdrop-blur-sm rounded-full flex items-center justify-center text-lg">
+                  {market.icon}
                 </div>
-                <div className="text-green-400 text-sm font-semibold">{item.sublabel}</div>
               </div>
-            );
-          })}
-        </div>
 
-        {/* Progress Card */}
-        <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-3xl p-8 mb-12">
-          {/* Top Section - Funds Raised and Target */}
-          <div className="flex justify-between items-start mb-6">
-            <div>
-              <div className="text-gray-400 text-sm mb-2">Funds Raised</div>
-              <div className="text-4xl md:text-5xl font-black text-blue-400">${raised.toFixed(2)}M</div>
-            </div>
-            <div className="text-right">
-              <div className="text-gray-400 text-sm mb-2">Target</div>
-              <div className="text-4xl md:text-5xl font-black text-purple-400">$5.0M</div>
-            </div>
-          </div>
-
-          {/* Progress Bar */}
-          <div className="mb-6">
-            <div className="relative w-full bg-gray-700 rounded-full h-8 overflow-hidden">
-              <div
-                className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full transition-all duration-1000 shadow-lg shadow-blue-500/50"
-                style={{ width: `${(raised / 5.0) * 100}%` }}
-              >
-                <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
-              </div>
-              <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-lg">
-                {((raised / 5.0) * 100).toFixed(1)}% Complete
+              {/* Content */}
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <h3 className="text-2xl font-bold text-white mb-2">{market.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                  {market.description}
+                </p>
+                <a
+                  href="#"
+                  className="inline-flex items-center gap-2 text-lime-400 font-semibold text-sm hover:gap-3 transition-all"
+                >
+                  Market insights
+                  <ArrowUpRight size={16} />
+                </a>
               </div>
             </div>
-          </div>
-
-          {/* Bottom Section - Three Info Cards */}
-          <div className="grid md:grid-cols-3 gap-4">
-            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 text-center">
-              <div className="text-2xl md:text-3xl font-black text-green-400 mb-1">
-                ${(5.0 - raised).toFixed(2)}M
-              </div>
-              <div className="text-gray-400 text-sm">Remaining</div>
-            </div>
-            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 text-center">
-              <div className="text-2xl md:text-3xl font-black text-yellow-400 mb-1">
-                {((raised / 5.0) * 100).toFixed(0)}%
-              </div>
-              <div className="text-gray-400 text-sm">Progress</div>
-            </div>
-            <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-4 text-center">
-              <div className="text-2xl md:text-3xl font-black text-blue-400 mb-1">
-                15d
-              </div>
-              <div className="text-gray-400 text-sm">Time Left</div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
 
