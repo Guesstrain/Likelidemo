@@ -21,15 +21,11 @@ import {
   Mail,
   Check,
 } from 'lucide-react';
-import { useAppKit } from '@reown/appkit/react';
-import { useAccount } from 'wagmi';
 import logoImage from '../lib/logo.png';
 import homeImage from '../lib/home.png';
 import predict1Image from '../lib/predict1.png';
 import predict2Image from '../lib/predict2.png';
 import predict3Image from '../lib/predict3.png';
-
-const shortenAddress = (address: string) => `${address.slice(0, 6)}...${address.slice(-4)}`;
 
 // 图片组件，带错误处理
 function ImageWithFallback({
@@ -76,9 +72,6 @@ export default function SpaceHome() {
   const [showWaitlistModal, setShowWaitlistModal] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const { address, status, isConnected } = useAccount();
-  const { open } = useAppKit();
-  const isConnecting = status === 'connecting' || status === 'reconnecting';
 
   // Update raised amount periodically
   useEffect(() => {
@@ -93,18 +86,6 @@ export default function SpaceHome() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const connectWallet = async () => {
-    if (!open) {
-      console.warn('Wallet not configured. Please set NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID.');
-      return;
-    }
-    try {
-      await open({ view: 'Connect' });
-    } catch (err) {
-      console.error('connectWallet:error', err);
-    }
-  };
 
   const handleWaitlistClick = () => {
     setShowWaitlistModal(true);
@@ -191,27 +172,12 @@ export default function SpaceHome() {
               <img src={logoImageSrc} alt="Logo" className="h-8 w-auto" />
             </div>
             <div className="flex items-center gap-3">
-              {isConnected && address ? (
-                <div className="flex items-center gap-3">
-                  <div className="text-sm">
-                    <div className="text-gray-400 text-xs">PORTFOLIO</div>
-                    <div className="text-green-400 font-bold">$21,718</div>
-                  </div>
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-xs">
-                    {shortenAddress(address).slice(0, 2).toUpperCase()}
-                  </div>
-                </div>
-              ) : (
-                <button
-                  onClick={connectWallet}
-                  disabled={isConnecting}
-                  className={`bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 ${
-                    isConnecting ? 'opacity-70 cursor-not-allowed' : ''
-                  }`}
-                >
-                  {isConnecting ? 'Connecting...' : 'Connect Wallet'}
-                </button>
-              )}
+              <button
+                onClick={handleWaitlistClick}
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105"
+              >
+                Join Waitlist
+              </button>
             </div>
           </div>
 
@@ -296,38 +262,13 @@ export default function SpaceHome() {
               </button>
             </div>
 
-            {/* Right: User Info & Actions */}
-            {isConnected && address && (
-              <div className="flex items-center gap-4">
-                <div className="hidden lg:flex items-center gap-6 text-sm">
-                  <div>
-                    <div className="text-gray-400 text-xs">PORTFOLIO</div>
-                    <div className="text-green-400 font-bold">$21,718</div>
-                  </div>
-                  <div>
-                    <div className="text-gray-400 text-xs">POINTS</div>
-                    <div className="font-bold">5,542,762</div>
-                  </div>
-                  <div>
-                    <div className="text-gray-400 text-xs">RANK</div>
-                    <div className="flex items-center gap-1">
-                      <span className="text-yellow-400 font-bold">Gold</span>
-                      <Star className="text-yellow-400" size={16} fill="currentColor" />
-                    </div>
-                  </div>
-                </div>
-                <button className="relative p-2 hover:bg-gray-800 rounded-lg transition-colors">
-                  <Bell size={20} />
-                  <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></div>
-                </button>
-                <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-4 py-2 rounded-lg font-semibold transition-colors">
-                  Deposit
-                </button>
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold">
-                  {shortenAddress(address).slice(0, 2).toUpperCase()}
-                </div>
-              </div>
-            )}
+            {/* Right: Waitlist Button */}
+            <button
+              onClick={handleWaitlistClick}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105"
+            >
+              Join Waitlist
+            </button>
           </div>
         </div>
       </div>
@@ -698,10 +639,10 @@ export default function SpaceHome() {
               Join the world&apos;s first leveraged prediction market. Trade on real-world events with up to 10x leverage.
             </p>
             <button
-              onClick={connectWallet}
+              onClick={handleWaitlistClick}
               className="bg-white hover:bg-gray-100 text-blue-600 px-10 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-xl flex items-center gap-3 mx-auto"
             >
-              <span>Connect Wallet and Start</span>
+              <span>Join Waitlist</span>
               <ArrowUpRight size={24} />
             </button>
           </div>
