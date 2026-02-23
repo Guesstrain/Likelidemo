@@ -15,12 +15,24 @@ import {
   Lock,
   Users,
   BarChart3,
-  Twitter,
   Shield,
   X,
   Mail,
   Check,
 } from 'lucide-react';
+
+// X (Twitter) Logo Component
+const XLogo = ({ size = 20, className = "" }: { size?: number; className?: string }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="currentColor" 
+    className={className}
+  >
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 import logoImage from '../lib/logo.png';
 import homeImage from '../lib/home.png';
 import predict1Image from '../lib/predict1.png';
@@ -177,7 +189,7 @@ export default function SpaceHome() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
             >
-              <Twitter size={20} />
+              <XLogo size={20} />
             </a>
           </div>
 
@@ -740,7 +752,7 @@ export default function SpaceHome() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
               >
-                <Twitter size={20} />
+                <XLogo size={18} />
                 <span className="text-sm">@LikeliOfficial</span>
               </a>
             </div>
@@ -776,8 +788,8 @@ export default function SpaceHome() {
                     rel="noopener noreferrer"
                     className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-2"
                   >
-                    <Twitter size={16} />
-                    Twitter
+                    <XLogo size={14} />
+                    X (Twitter)
                   </a>
                 </li>
               </ul>
