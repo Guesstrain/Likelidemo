@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Bell,
   Star,
@@ -20,6 +20,27 @@ import {
   Mail,
   Check,
 } from 'lucide-react';
+
+// Custom hook for scroll animations
+function useScrollAnimation() {
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    const elements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-scale');
+    elements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+}
 
 // X (Twitter) Logo Component
 const XLogo = ({ size = 20, className = "" }: { size?: number; className?: string }) => (
@@ -84,6 +105,9 @@ export default function SpaceHome() {
   const [showWaitlistModal, setShowWaitlistModal] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // Initialize scroll animations
+  useScrollAnimation();
 
   // Update raised amount periodically
   useEffect(() => {
@@ -195,33 +219,33 @@ export default function SpaceHome() {
 
           {/* Hero Content */}
           <div className="text-center mb-8">
-            <div className="flex flex-wrap justify-center gap-3 mb-8">
-              <div className="px-5 py-2.5 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/60 rounded-full text-sm font-semibold flex items-center gap-2 shadow-lg shadow-yellow-500/20 hover:scale-105 transition-transform">
-                <div className="w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></div>
-                <span className="text-yellow-300">Built on BNB</span>
+            <div className="flex flex-wrap justify-center gap-3 mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              <div className="px-5 py-2.5 bg-gradient-to-r from-yellow-400/10 to-orange-400/10 border border-yellow-500/40 rounded-full text-sm font-semibold flex items-center gap-2 shadow-sm hover:scale-105 transition-transform">
+                <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse"></div>
+                <span className="text-yellow-600">Built on BNB</span>
               </div>
-              <div className="px-5 py-2.5 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/60 rounded-full text-sm font-semibold flex items-center gap-2 shadow-lg shadow-blue-500/20 hover:scale-105 transition-transform">
-                <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse"></div>
-                <span className="text-blue-300">World&apos;s First Leveraged Prediction Market</span>
+              <div className="px-5 py-2.5 bg-gradient-to-r from-blue-400/10 to-purple-400/10 border border-blue-500/40 rounded-full text-sm font-semibold flex items-center gap-2 shadow-sm hover:scale-105 transition-transform">
+                <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse"></div>
+                <span className="text-blue-600">World&apos;s First Leveraged Prediction Market</span>
               </div>
             </div>
 
-            <h1 className="text-7xl md:text-8xl font-black mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            <h1 className="text-7xl md:text-8xl font-black mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               10x Prediction Markets
             </h1>
-            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
               The arena where truth wins, capital flows, and the sharpest minds compete daily.
             </p>
 
-            <div className="flex items-center justify-center gap-8 mb-8">
-              <div className="text-yellow-400 text-4xl">🏆</div>
+            <div className="flex items-center justify-center gap-8 mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+              <div className="text-yellow-500 text-4xl animate-float">🏆</div>
               <button 
                 onClick={handleWaitlistClick}
-                className="bg-blue-500 hover:bg-blue-600 text-white px-12 py-4 rounded-xl text-xl font-bold transition-all transform hover:scale-105 shadow-lg shadow-blue-500/50"
+                className="btn-glow bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-12 py-4 rounded-xl text-xl font-bold transition-all transform hover:scale-105 shadow-lg shadow-blue-500/30"
               >
                 Waitlist
               </button>
-              <div className="text-yellow-400 text-4xl">🏆</div>
+              <div className="text-yellow-500 text-4xl animate-float" style={{ animationDelay: '0.5s' }}>🏆</div>
             </div>
           </div>
         </div>
@@ -288,7 +312,7 @@ export default function SpaceHome() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Main Image Display */}
-        <div className="w-full rounded-xl overflow-hidden border border-gray-200 bg-gray-50 shadow-lg">
+        <div className="w-full rounded-xl overflow-hidden border border-gray-200 bg-gray-50 shadow-lg scroll-animate-scale">
           <ImageWithFallback
             src={navImages[activeNav] || navImages.Markets}
             alt={activeNav}
@@ -297,9 +321,12 @@ export default function SpaceHome() {
         </div>
       </div>
 
+      {/* Section Divider */}
+      <div className="section-divider max-w-4xl mx-auto my-8"></div>
+
       {/* How It Works Section */}
       <div className="max-w-7xl mx-auto px-6 py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50">
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 scroll-animate">
           <h2 className="text-5xl md:text-6xl font-black mb-6 text-gray-900">
             How It Works
           </h2>
@@ -311,7 +338,7 @@ export default function SpaceHome() {
         {/* Three Steps */}
         <div className="grid md:grid-cols-3 gap-8">
           {/* Step 1: Choose a Market */}
-          <div className="bg-white border border-gray-200 rounded-3xl p-8 hover:border-gray-300 hover:shadow-lg transition-all">
+          <div className="bg-white border border-gray-200 rounded-3xl p-8 hover:border-gray-300 card-hover scroll-animate delay-100">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
                 1
@@ -331,7 +358,7 @@ export default function SpaceHome() {
           </div>
 
           {/* Step 2: Build Your Position */}
-          <div className="bg-white border border-gray-200 rounded-3xl p-8 hover:border-gray-300 hover:shadow-lg transition-all">
+          <div className="bg-white border border-gray-200 rounded-3xl p-8 hover:border-gray-300 card-hover scroll-animate delay-200">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
                 2
@@ -351,7 +378,7 @@ export default function SpaceHome() {
           </div>
 
           {/* Step 3: Multiply Your Returns */}
-          <div className="bg-white border border-gray-200 rounded-3xl p-8 hover:border-gray-300 hover:shadow-lg transition-all">
+          <div className="bg-white border border-gray-200 rounded-3xl p-8 hover:border-gray-300 card-hover scroll-animate delay-300">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
                 3
@@ -372,9 +399,12 @@ export default function SpaceHome() {
         </div>
       </div>
 
+      {/* Section Divider */}
+      <div className="section-divider max-w-4xl mx-auto my-8"></div>
+
       {/* More Power Section */}
       <div className="max-w-7xl mx-auto px-6 py-20">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 scroll-animate">
           <h2 className="text-5xl md:text-6xl font-black mb-4 text-gray-900">
           Why Likeli.io Will 10x Your Investment
           </h2>
@@ -386,7 +416,7 @@ export default function SpaceHome() {
         {/* Three Feature Cards */}
         <div className="grid md:grid-cols-3 gap-6">
           {/* Card 1: Leverage Trade */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm card-hover scroll-animate-left delay-100">
             <h3 className="text-2xl font-bold mb-4 text-gray-900">Leverage Trade</h3>
             
             {/* Yes/No Buttons */}
@@ -460,7 +490,7 @@ export default function SpaceHome() {
           </div>
 
           {/* Card 2: Hyperliquid Ecosystem */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm card-hover scroll-animate delay-200">
             <h3 className="text-2xl font-bold mb-4 text-gray-900">Hyperliquid Ecosystem</h3>
             
             {/* Ecosystem Integration Graphic */}
@@ -532,7 +562,7 @@ export default function SpaceHome() {
           </div>
 
           {/* Card 3: AI Bot Builder */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm card-hover scroll-animate-right delay-300">
             <h3 className="text-2xl font-bold mb-4 text-gray-900">AI Bot Builder</h3>
             
             {/* AI Bot Graphic */}
@@ -588,10 +618,13 @@ export default function SpaceHome() {
         </div>
       </div>
 
+      {/* Section Divider */}
+      <div className="section-divider max-w-4xl mx-auto my-8"></div>
+
       {/* Markets Section */}
       <div className="max-w-7xl mx-auto px-6 py-20 bg-gray-50">
         {/* Section Header */}
-        <div className="flex justify-between items-center mb-12">
+        <div className="flex justify-between items-center mb-12 scroll-animate">
           <h2 className="text-4xl md:text-5xl font-black text-gray-900">
             Markets
           </h2>
@@ -635,7 +668,7 @@ export default function SpaceHome() {
           ].map((market, i) => (
             <div
               key={i}
-              className="group relative bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-gray-300 hover:shadow-xl transition-all"
+              className={`group relative bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-gray-300 card-hover scroll-animate-scale delay-${(i + 1) * 100}`}
             >
               {/* Background Image */}
               <div className="relative h-80">
@@ -673,12 +706,12 @@ export default function SpaceHome() {
 
       {/* Backed By Industry Leaders Section */}
       <div className="max-w-7xl mx-auto px-6 py-20">
-        <h2 className="text-4xl md:text-5xl font-black text-gray-900 text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-black text-gray-900 text-center mb-16 scroll-animate">
           Backed By Industry Leaders
         </h2>
         
         <div className="grid md:grid-cols-3 gap-8 mb-20">
-          <div className="bg-white border border-gray-200 rounded-3xl p-10 text-center hover:border-blue-300 hover:shadow-lg transition-all">
+          <div className="bg-white border border-gray-200 rounded-3xl p-10 text-center hover:border-blue-300 card-hover scroll-animate delay-100">
             <div className="text-5xl md:text-6xl font-black bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent mb-4">
               $2M+
             </div>
@@ -686,7 +719,7 @@ export default function SpaceHome() {
             <div className="text-gray-500 text-sm">From top-tier VCs</div>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-3xl p-10 text-center hover:border-purple-300 hover:shadow-lg transition-all">
+          <div className="bg-white border border-gray-200 rounded-3xl p-10 text-center hover:border-purple-300 card-hover scroll-animate delay-200">
             <div className="text-5xl md:text-6xl font-black bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent mb-4">
               5 Years
             </div>
@@ -694,7 +727,7 @@ export default function SpaceHome() {
             <div className="text-gray-500 text-sm">Ex-Coinbase, Binance, Polymarket</div>
           </div>
 
-          <div className="bg-white border border-gray-200 rounded-3xl p-10 text-center hover:border-green-300 hover:shadow-lg transition-all">
+          <div className="bg-white border border-gray-200 rounded-3xl p-10 text-center hover:border-green-300 card-hover scroll-animate delay-300">
             <div className="text-5xl md:text-6xl font-black bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent mb-4">
               100%
             </div>
@@ -704,7 +737,7 @@ export default function SpaceHome() {
         </div>
 
         {/* CTA Section */}
-        <div className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 rounded-3xl p-12 md:p-16 text-center overflow-hidden">
+        <div className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-purple-700 rounded-3xl p-12 md:p-16 text-center overflow-hidden scroll-animate-scale">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute inset-0" style={{
@@ -722,7 +755,7 @@ export default function SpaceHome() {
             </p>
             <button
               onClick={handleWaitlistClick}
-              className="bg-white hover:bg-gray-100 text-blue-600 px-10 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-xl flex items-center gap-3 mx-auto"
+              className="btn-glow bg-white hover:bg-gray-50 text-blue-600 px-10 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-xl flex items-center gap-3 mx-auto"
             >
               <span>Join Waitlist</span>
               <ArrowUpRight size={24} />
