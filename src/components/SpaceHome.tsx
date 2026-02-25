@@ -53,11 +53,11 @@ function ImageWithFallback({
 
   if (hasError) {
     return (
-      <div className="w-full min-h-[600px] bg-gray-900 flex items-center justify-center text-gray-500">
+      <div className="w-full min-h-[600px] bg-gray-100 flex items-center justify-center text-gray-500">
         <div className="text-center p-8">
           <p className="text-lg font-semibold mb-2">图片未找到</p>
           <p className="text-sm text-gray-400">
-            请将图片放在: <code className="bg-gray-800 px-2 py-1 rounded">public/images/{categoryName.toLowerCase()}.jpg</code>
+            请将图片放在: <code className="bg-gray-200 px-2 py-1 rounded">public/images/{categoryName.toLowerCase()}.jpg</code>
           </p>
         </div>
       </div>
@@ -174,9 +174,9 @@ export default function SpaceHome() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-white text-gray-900">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-b from-blue-900/30 via-blue-800/20 to-black pt-20 pb-16">
+      <div className="relative bg-gradient-to-b from-blue-50 via-purple-50/50 to-white pt-20 pb-16">
         <div className="max-w-7xl mx-auto px-6">
           {/* Top Bar */}
           <div className="flex justify-between items-center mb-12">
@@ -187,7 +187,7 @@ export default function SpaceHome() {
               href="https://x.com/LikeliOfficial" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+              className="flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors"
             >
               <XLogo size={20} />
             </a>
@@ -206,10 +206,10 @@ export default function SpaceHome() {
               </div>
             </div>
 
-            <h1 className="text-7xl md:text-8xl font-black mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            <h1 className="text-7xl md:text-8xl font-black mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
               10x Prediction Markets
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto">
               The arena where truth wins, capital flows, and the sharpest minds compete daily.
             </p>
 
@@ -230,7 +230,7 @@ export default function SpaceHome() {
       {/* Navigation Bar */}
       <div
         className={`sticky top-0 z-50 transition-all duration-300 ${
-          scrollY > 50 ? 'bg-black/95 backdrop-blur-xl border-b border-gray-800' : 'bg-black/80 backdrop-blur-sm'
+          scrollY > 50 ? 'bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-sm' : 'bg-white/80 backdrop-blur-sm'
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 py-4">
@@ -246,8 +246,8 @@ export default function SpaceHome() {
                 onClick={() => setActiveNav('Markets')}
                 className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all transform hover:scale-105 ${
                   activeNav === 'Markets'
-                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/50 scale-105'
-                    : 'bg-gray-800/50 text-gray-400 hover:text-white hover:bg-gray-700/50 border border-gray-700'
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30 scale-105'
+                    : 'bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200 border border-gray-200'
                 }`}
               >
                 Markets
@@ -256,8 +256,8 @@ export default function SpaceHome() {
                 onClick={() => setActiveNav('Trade')}
                 className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all transform hover:scale-105 ${
                   activeNav === 'Trade'
-                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/50 scale-105'
-                    : 'bg-gray-800/50 text-gray-400 hover:text-white hover:bg-gray-700/50 border border-gray-700'
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30 scale-105'
+                    : 'bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200 border border-gray-200'
                 }`}
               >
                 Trade
@@ -266,8 +266,8 @@ export default function SpaceHome() {
                 onClick={() => setActiveNav('Portfolio')}
                 className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all transform hover:scale-105 ${
                   activeNav === 'Portfolio'
-                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/50 scale-105'
-                    : 'bg-gray-800/50 text-gray-400 hover:text-white hover:bg-gray-700/50 border border-gray-700'
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg shadow-blue-500/30 scale-105'
+                    : 'bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200 border border-gray-200'
                 }`}
               >
                 Portfolio
@@ -288,7 +288,7 @@ export default function SpaceHome() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Main Image Display */}
-        <div className="w-full rounded-xl overflow-hidden border border-gray-800 bg-gray-900">
+        <div className="w-full rounded-xl overflow-hidden border border-gray-200 bg-gray-50 shadow-lg">
           <ImageWithFallback
             src={navImages[activeNav] || navImages.Markets}
             alt={activeNav}
@@ -298,12 +298,12 @@ export default function SpaceHome() {
       </div>
 
       {/* How It Works Section */}
-      <div className="max-w-7xl mx-auto px-6 py-20 bg-gradient-to-b from-black via-gray-900/50 to-black">
+      <div className="max-w-7xl mx-auto px-6 py-20 bg-gradient-to-b from-gray-50 via-white to-gray-50">
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-black mb-6 text-white">
+          <h2 className="text-5xl md:text-6xl font-black mb-6 text-gray-900">
             How It Works
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Pick outcomes, set your position and optional leverage, then cash out anytime or hold until the market resolves.
           </p>
         </div>
@@ -311,17 +311,17 @@ export default function SpaceHome() {
         {/* Three Steps */}
         <div className="grid md:grid-cols-3 gap-8">
           {/* Step 1: Choose a Market */}
-          <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-3xl p-8 hover:border-gray-700 transition-all">
+          <div className="bg-white border border-gray-200 rounded-3xl p-8 hover:border-gray-300 hover:shadow-lg transition-all">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gray-800 border border-gray-700 rounded-full flex items-center justify-center text-white font-bold">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
                 1
               </div>
-              <h3 className="text-2xl font-bold text-white">Choose a Market</h3>
+              <h3 className="text-2xl font-bold text-gray-900">Choose a Market</h3>
             </div>
-            <p className="text-gray-400 mb-6 leading-relaxed">
+            <p className="text-gray-600 mb-6 leading-relaxed">
               Browse crypto, politics, sports, tech, economics, culture, and more. Pick outcomes you know better than the crowd does.
             </p>
-            <div className="rounded-2xl overflow-hidden border border-gray-800 bg-gray-900/50">
+            <div className="rounded-2xl overflow-hidden border border-gray-200 bg-gray-50">
               <img
                 src={predict1ImageSrc}
                 alt="Choose a Market"
@@ -331,17 +331,17 @@ export default function SpaceHome() {
           </div>
 
           {/* Step 2: Build Your Position */}
-          <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-3xl p-8 hover:border-gray-700 transition-all">
+          <div className="bg-white border border-gray-200 rounded-3xl p-8 hover:border-gray-300 hover:shadow-lg transition-all">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gray-800 border border-gray-700 rounded-full flex items-center justify-center text-white font-bold">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
                 2
               </div>
-              <h3 className="text-2xl font-bold text-white">Build Your Position</h3>
+              <h3 className="text-2xl font-bold text-gray-900">Build Your Position</h3>
             </div>
-            <p className="text-gray-400 mb-6 leading-relaxed">
+            <p className="text-gray-600 mb-6 leading-relaxed">
               Buy YES or NO shares with market orders for instant fills, or set limit orders at any price and wait for them to execute.
             </p>
-            <div className="rounded-2xl overflow-hidden border border-gray-800 bg-gray-900/50">
+            <div className="rounded-2xl overflow-hidden border border-gray-200 bg-gray-50">
               <img
                 src={predict2ImageSrc}
                 alt="Build Your Position"
@@ -351,17 +351,17 @@ export default function SpaceHome() {
           </div>
 
           {/* Step 3: Multiply Your Returns */}
-          <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-3xl p-8 hover:border-gray-700 transition-all">
+          <div className="bg-white border border-gray-200 rounded-3xl p-8 hover:border-gray-300 hover:shadow-lg transition-all">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gray-800 border border-gray-700 rounded-full flex items-center justify-center text-white font-bold">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
                 3
               </div>
-              <h3 className="text-2xl font-bold text-white">Multiply Your Returns</h3>
+              <h3 className="text-2xl font-bold text-gray-900">Multiply Your Returns</h3>
             </div>
-            <p className="text-gray-400 mb-6 leading-relaxed">
+            <p className="text-gray-600 mb-6 leading-relaxed">
               Multiply your exposure up to 10x with leverage. Small capital and big positions means outsized returns when you&apos;re right.
             </p>
-            <div className="rounded-2xl overflow-hidden border border-gray-800 bg-gray-900/50">
+            <div className="rounded-2xl overflow-hidden border border-gray-200 bg-gray-50">
               <img
                 src={predict3ImageSrc}
                 alt="Multiply Your Returns"
@@ -375,10 +375,10 @@ export default function SpaceHome() {
       {/* More Power Section */}
       <div className="max-w-7xl mx-auto px-6 py-20">
         <div className="text-center mb-12">
-          <h2 className="text-5xl md:text-6xl font-black mb-4 text-white">
+          <h2 className="text-5xl md:text-6xl font-black mb-4 text-gray-900">
           Why Likeli.io Will 10x Your Investment
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
           This is not just another token. This is the future of decentralized prediction markets.
           </p>
         </div>
@@ -386,59 +386,59 @@ export default function SpaceHome() {
         {/* Three Feature Cards */}
         <div className="grid md:grid-cols-3 gap-6">
           {/* Card 1: Leverage Trade */}
-          <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-2xl font-bold mb-4 text-white">Leverage Trade</h3>
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all">
+            <h3 className="text-2xl font-bold mb-4 text-gray-900">Leverage Trade</h3>
             
             {/* Yes/No Buttons */}
             <div className="flex gap-2 mb-4">
-              <button className="flex-1 bg-green-500/20 border-2 border-green-500 text-green-400 py-2 rounded-lg font-semibold">
+              <button className="flex-1 bg-green-50 border-2 border-green-500 text-green-600 py-2 rounded-lg font-semibold">
                 Yes 33¢
               </button>
-              <button className="flex-1 bg-gray-800 border-2 border-gray-700 text-gray-400 py-2 rounded-lg font-semibold hover:border-red-500 hover:text-red-400 transition-colors">
+              <button className="flex-1 bg-gray-50 border-2 border-gray-300 text-gray-500 py-2 rounded-lg font-semibold hover:border-red-500 hover:text-red-500 transition-colors">
                 No 67¢
               </button>
             </div>
 
             {/* Amount */}
             <div className="mb-4">
-              <div className="text-sm text-gray-400 mb-2">Amount</div>
-              <div className="text-4xl font-bold text-white mb-3">${leverageAmount.toLocaleString()}</div>
+              <div className="text-sm text-gray-500 mb-2">Amount</div>
+              <div className="text-4xl font-bold text-gray-900 mb-3">${leverageAmount.toLocaleString()}</div>
               <div className="flex gap-2">
                 <button
                   onClick={() => setLeverageAmount((prev) => prev + 1)}
-                  className="flex-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white py-1.5 rounded text-sm font-semibold transition-colors"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 border border-gray-200 text-gray-700 py-1.5 rounded text-sm font-semibold transition-colors"
                 >
                   +$1
                 </button>
                 <button
                   onClick={() => setLeverageAmount((prev) => prev + 20)}
-                  className="flex-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white py-1.5 rounded text-sm font-semibold transition-colors"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 border border-gray-200 text-gray-700 py-1.5 rounded text-sm font-semibold transition-colors"
                 >
                   +$20
                 </button>
                 <button
                   onClick={() => setLeverageAmount((prev) => prev + 100)}
-                  className="flex-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white py-1.5 rounded text-sm font-semibold transition-colors"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 border border-gray-200 text-gray-700 py-1.5 rounded text-sm font-semibold transition-colors"
                 >
                   +$100
                 </button>
                 <button
                   onClick={() => setLeverageAmount(10000)}
-                  className="flex-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white py-1.5 rounded text-sm font-semibold transition-colors"
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 border border-gray-200 text-gray-700 py-1.5 rounded text-sm font-semibold transition-colors"
                 >
                   MAX
                 </button>
               </div>
             </div>
 
-            <div className="text-sm text-gray-400 mb-4">Cost: ${(leverageAmount / leverage).toFixed(2)}</div>
+            <div className="text-sm text-gray-500 mb-4">Cost: ${(leverageAmount / leverage).toFixed(2)}</div>
 
             {/* Leverage Slider */}
             <div className="mb-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-gray-400">Leverage</span>
+                <span className="text-sm text-gray-500">Leverage</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-lg font-bold text-green-400">{leverage}x</span>
+                  <span className="text-lg font-bold text-green-600">{leverage}x</span>
                   <div className="w-12 h-6 bg-green-500 rounded-full relative">
                     <div className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></div>
                   </div>
@@ -450,21 +450,21 @@ export default function SpaceHome() {
                 max="10"
                 value={leverage}
                 onChange={(e) => setLeverage(Number(e.target.value))}
-                className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-green-500"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-green-500"
               />
             </div>
 
-            <p className="text-sm text-gray-400 mt-4">
+            <p className="text-sm text-gray-500 mt-4">
               Leverage lets you trade bigger with less capital, multiplying profits fast.
             </p>
           </div>
 
           {/* Card 2: Hyperliquid Ecosystem */}
-          <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-2xl font-bold mb-4 text-white">Hyperliquid Ecosystem</h3>
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all">
+            <h3 className="text-2xl font-bold mb-4 text-gray-900">Hyperliquid Ecosystem</h3>
             
             {/* Ecosystem Integration Graphic */}
-            <div className="relative h-64 mb-4 flex items-center justify-center bg-gray-800/50 rounded-lg overflow-hidden">
+            <div className="relative h-64 mb-4 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
               <img
                 src={`https://picsum.photos/seed/hyperliquid/400/300`}
                 alt="Hyperliquid Ecosystem"
@@ -514,29 +514,29 @@ export default function SpaceHome() {
             <div className="space-y-2 mb-4">
               <div className="flex items-center gap-2 text-sm">
                 <div className="w-2 h-2 bg-cyan-500 rounded-full"></div>
-                <span className="text-gray-300">Native Hyperliquid integration</span>
+                <span className="text-gray-700">Native Hyperliquid integration</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                <span className="text-gray-300">Deep liquidity from orderbook</span>
+                <span className="text-gray-700">Deep liquidity from orderbook</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                <span className="text-gray-300">On-chain settlement & security</span>
+                <span className="text-gray-700">On-chain settlement & security</span>
               </div>
             </div>
 
-            <p className="text-sm text-gray-400 mt-4">
+            <p className="text-sm text-gray-500 mt-4">
               Built on Hyperliquid&apos;s high-performance infrastructure for seamless prediction markets trading with minimal slippage.
             </p>
           </div>
 
           {/* Card 3: AI Bot Builder */}
-          <div className="bg-gradient-to-br from-gray-900 to-black border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-2xl font-bold mb-4 text-white">AI Bot Builder</h3>
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all">
+            <h3 className="text-2xl font-bold mb-4 text-gray-900">AI Bot Builder</h3>
             
             {/* AI Bot Graphic */}
-            <div className="relative h-64 mb-4 flex items-center justify-center bg-gray-800/50 rounded-lg overflow-hidden">
+            <div className="relative h-64 mb-4 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
               <img
                 src={`https://picsum.photos/seed/ai-bot/400/300`}
                 alt="AI Trading Bot"
@@ -568,20 +568,20 @@ export default function SpaceHome() {
             {/* Features List */}
             <div className="space-y-2 mb-4">
               <div className="flex items-center gap-2 text-sm">
-                <Zap className="text-yellow-400" size={16} />
-                <span className="text-gray-300">Custom AI strategies</span>
+                <Zap className="text-yellow-500" size={16} />
+                <span className="text-gray-700">Custom AI strategies</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
-                <TrendingUp className="text-green-400" size={16} />
-                <span className="text-gray-300">Automated trading</span>
+                <TrendingUp className="text-green-500" size={16} />
+                <span className="text-gray-700">Automated trading</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
-                <Star className="text-blue-400" size={16} />
-                <span className="text-gray-300">Machine learning models</span>
+                <Star className="text-blue-500" size={16} />
+                <span className="text-gray-700">Machine learning models</span>
               </div>
             </div>
 
-            <p className="text-sm text-gray-400 mt-4">
+            <p className="text-sm text-gray-500 mt-4">
               Create your own AI prediction trading bot with custom strategies and automation.
             </p>
           </div>
@@ -589,17 +589,17 @@ export default function SpaceHome() {
       </div>
 
       {/* Markets Section */}
-      <div className="max-w-7xl mx-auto px-6 py-20">
+      <div className="max-w-7xl mx-auto px-6 py-20 bg-gray-50">
         {/* Section Header */}
         <div className="flex justify-between items-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-black text-white">
+          <h2 className="text-4xl md:text-5xl font-black text-gray-900">
             Markets
           </h2>
           <div className="flex gap-2">
-            <button className="w-12 h-12 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-500 transition-colors">
+            <button className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:border-gray-400 transition-colors">
               <ArrowUpRight className="rotate-[225deg]" size={20} />
             </button>
-            <button className="w-12 h-12 rounded-full border border-gray-700 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-500 transition-colors">
+            <button className="w-12 h-12 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:border-gray-400 transition-colors">
               <ArrowUpRight className="rotate-45" size={20} />
             </button>
           </div>
@@ -635,32 +635,32 @@ export default function SpaceHome() {
           ].map((market, i) => (
             <div
               key={i}
-              className="group relative bg-gray-900 rounded-2xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-all"
+              className="group relative bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-gray-300 hover:shadow-xl transition-all"
             >
               {/* Background Image */}
               <div className="relative h-80">
                 <img
                   src={market.image}
                   alt={market.title}
-                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                  className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-transparent" />
                 
                 {/* Icon Badge */}
-                <div className="absolute top-4 left-4 w-10 h-10 bg-gray-900/80 backdrop-blur-sm rounded-full flex items-center justify-center text-lg">
+                <div className="absolute top-4 left-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-lg shadow-md">
                   {market.icon}
                 </div>
               </div>
 
               {/* Content */}
               <div className="absolute bottom-0 left-0 right-0 p-6">
-                <h3 className="text-2xl font-bold text-white mb-2">{market.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">{market.title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4">
                   {market.description}
                 </p>
                 <a
                   href="#"
-                  className="inline-flex items-center gap-2 text-lime-400 font-semibold text-sm hover:gap-3 transition-all"
+                  className="inline-flex items-center gap-2 text-blue-600 font-semibold text-sm hover:gap-3 transition-all"
                 >
                   Market insights
                   <ArrowUpRight size={16} />
@@ -673,33 +673,33 @@ export default function SpaceHome() {
 
       {/* Backed By Industry Leaders Section */}
       <div className="max-w-7xl mx-auto px-6 py-20">
-        <h2 className="text-4xl md:text-5xl font-black text-white text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-black text-gray-900 text-center mb-16">
           Backed By Industry Leaders
         </h2>
         
         <div className="grid md:grid-cols-3 gap-8 mb-20">
-          <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-10 text-center hover:border-blue-500/50 transition-all">
-            <div className="text-5xl md:text-6xl font-black bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent mb-4">
+          <div className="bg-white border border-gray-200 rounded-3xl p-10 text-center hover:border-blue-300 hover:shadow-lg transition-all">
+            <div className="text-5xl md:text-6xl font-black bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent mb-4">
               $2M+
             </div>
-            <div className="text-xl font-bold text-white mb-3">Pre-seed Funding</div>
-            <div className="text-gray-400 text-sm">From top-tier VCs</div>
+            <div className="text-xl font-bold text-gray-900 mb-3">Pre-seed Funding</div>
+            <div className="text-gray-500 text-sm">From top-tier VCs</div>
           </div>
 
-          <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-10 text-center hover:border-purple-500/50 transition-all">
-            <div className="text-5xl md:text-6xl font-black bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-4">
+          <div className="bg-white border border-gray-200 rounded-3xl p-10 text-center hover:border-purple-300 hover:shadow-lg transition-all">
+            <div className="text-5xl md:text-6xl font-black bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent mb-4">
               5 Years
             </div>
-            <div className="text-xl font-bold text-white mb-3">Team Experience</div>
-            <div className="text-gray-400 text-sm">Ex-Coinbase, Binance, Polymarket</div>
+            <div className="text-xl font-bold text-gray-900 mb-3">Team Experience</div>
+            <div className="text-gray-500 text-sm">Ex-Coinbase, Binance, Polymarket</div>
           </div>
 
-          <div className="bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-sm border border-gray-700/50 rounded-3xl p-10 text-center hover:border-green-500/50 transition-all">
-            <div className="text-5xl md:text-6xl font-black bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
+          <div className="bg-white border border-gray-200 rounded-3xl p-10 text-center hover:border-green-300 hover:shadow-lg transition-all">
+            <div className="text-5xl md:text-6xl font-black bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent mb-4">
               100%
             </div>
-            <div className="text-xl font-bold text-white mb-3">Audited & Secure</div>
-            <div className="text-gray-400 text-sm">By Certik & Hacken</div>
+            <div className="text-xl font-bold text-gray-900 mb-3">Audited & Secure</div>
+            <div className="text-gray-500 text-sm">By Certik & Hacken</div>
           </div>
         </div>
 
@@ -732,7 +732,7 @@ export default function SpaceHome() {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-gray-800 bg-gradient-to-b from-black to-gray-900">
+      <footer className="border-t border-gray-200 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             {/* Brand Column */}
@@ -741,16 +741,16 @@ export default function SpaceHome() {
                 <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
                   <span className="text-white font-black text-xl">L</span>
                 </div>
-                <span className="text-xl font-bold text-white">Likeli.io</span>
+                <span className="text-xl font-bold text-gray-900">Likeli.io</span>
               </div>
-              <p className="text-gray-400 text-sm leading-relaxed mb-4">
+              <p className="text-gray-500 text-sm leading-relaxed mb-4">
                 The world&apos;s first leveraged prediction market using native crypto assets.
               </p>
               <a 
                 href="https://x.com/LikeliOfficial" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                className="inline-flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors"
               >
                 <XLogo size={18} />
                 <span className="text-sm">@LikeliOfficial</span>
@@ -759,34 +759,34 @@ export default function SpaceHome() {
 
             {/* Resources Column */}
             <div>
-              <h3 className="text-white font-bold mb-4">Resources</h3>
+              <h3 className="text-gray-900 font-bold mb-4">Resources</h3>
               <ul className="space-y-3">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Whitepaper</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Documentation</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Tokenomics</a></li>
+                <li><a href="#" className="text-gray-500 hover:text-gray-900 transition-colors text-sm">Whitepaper</a></li>
+                <li><a href="#" className="text-gray-500 hover:text-gray-900 transition-colors text-sm">Documentation</a></li>
+                <li><a href="#" className="text-gray-500 hover:text-gray-900 transition-colors text-sm">Tokenomics</a></li>
               </ul>
             </div>
 
             {/* Legal Column */}
             <div>
-              <h3 className="text-white font-bold mb-4">Legal</h3>
+              <h3 className="text-gray-900 font-bold mb-4">Legal</h3>
               <ul className="space-y-3">
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Terms of Use</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Privacy Policy</a></li>
-                <li><a href="#" className="text-gray-400 hover:text-white transition-colors text-sm">Disclaimer</a></li>
+                <li><a href="#" className="text-gray-500 hover:text-gray-900 transition-colors text-sm">Terms of Use</a></li>
+                <li><a href="#" className="text-gray-500 hover:text-gray-900 transition-colors text-sm">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-500 hover:text-gray-900 transition-colors text-sm">Disclaimer</a></li>
               </ul>
             </div>
 
             {/* Community Column */}
             <div>
-              <h3 className="text-white font-bold mb-4">Community</h3>
+              <h3 className="text-gray-900 font-bold mb-4">Community</h3>
               <ul className="space-y-3">
                 <li>
                   <a 
                     href="https://x.com/LikeliOfficial" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-2"
+                    className="text-gray-500 hover:text-gray-900 transition-colors text-sm flex items-center gap-2"
                   >
                     <XLogo size={14} />
                     X (Twitter)
@@ -797,7 +797,7 @@ export default function SpaceHome() {
           </div>
 
           {/* Copyright */}
-          <div className="pt-8 border-t border-gray-800 text-center">
+          <div className="pt-8 border-t border-gray-200 text-center">
             <p className="text-gray-500 text-sm">
               Copyright © 2026 Likeli.io. All rights reserved.
             </p>
@@ -807,8 +807,8 @@ export default function SpaceHome() {
 
       {/* Waitlist Modal */}
       {showWaitlistModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
-          <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="relative bg-white border border-gray-200 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
             {/* Close Button */}
             <button
               onClick={() => {
@@ -816,7 +816,7 @@ export default function SpaceHome() {
                 setIsSubmitted(false);
                 setEmail('');
               }}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition-colors"
             >
               <X size={24} />
             </button>
@@ -827,15 +827,15 @@ export default function SpaceHome() {
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Mail className="text-white" size={32} />
                   </div>
-                  <h2 className="text-3xl font-bold text-white mb-2">Join the Waitlist</h2>
-                  <p className="text-gray-400">
+                  <h2 className="text-3xl font-bold text-gray-900 mb-2">Join the Waitlist</h2>
+                  <p className="text-gray-500">
                     Be among the first to experience the world&apos;s first leveraged prediction market
                   </p>
                 </div>
 
                 <form onSubmit={handleEmailSubmit} className="space-y-4">
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                       Email Address
                     </label>
                     <input
@@ -845,13 +845,13 @@ export default function SpaceHome() {
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="your.email@example.com"
                       required
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg shadow-blue-500/50"
+                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg shadow-blue-500/30"
                   >
                     Join Waitlist
                   </button>
@@ -862,8 +862,8 @@ export default function SpaceHome() {
                 <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Check className="text-white" size={32} />
                 </div>
-                <h2 className="text-3xl font-bold text-white mb-2">Success!</h2>
-                <p className="text-gray-400">
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">Success!</h2>
+                <p className="text-gray-500">
                   Thank you for joining! We&apos;ll notify you when we launch.
                 </p>
               </div>
