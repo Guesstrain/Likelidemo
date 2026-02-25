@@ -237,15 +237,13 @@ export default function SpaceHome() {
               The arena where truth wins, capital flows, and the sharpest minds compete daily.
             </p>
 
-            <div className="flex items-center justify-center gap-8 mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              <div className="text-yellow-500 text-4xl animate-float">🏆</div>
+            <div className="flex items-center justify-center mb-8 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               <button 
                 onClick={handleWaitlistClick}
-                className="btn-glow bg-gray-900 hover:bg-gray-800 text-white px-12 py-4 rounded-xl text-xl font-bold transition-all transform hover:scale-105 shadow-xl shadow-gray-900/30"
+                className="btn-glow bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-12 py-4 rounded-xl text-xl font-bold transition-all transform hover:scale-105 shadow-lg shadow-blue-500/30"
               >
-                Waitlist
+                Join Waitlist
               </button>
-              <div className="text-yellow-500 text-4xl animate-float" style={{ animationDelay: '0.5s' }}>🏆</div>
             </div>
           </div>
         </div>
@@ -301,7 +299,7 @@ export default function SpaceHome() {
             {/* Right: Waitlist Button */}
             <button
               onClick={handleWaitlistClick}
-              className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-md"
+              className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-md shadow-blue-500/20"
             >
               Join Waitlist
             </button>
@@ -884,7 +882,7 @@ export default function SpaceHome() {
 
                   <button
                     type="submit"
-                    className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg"
+                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg shadow-blue-500/30"
                   >
                     Join Waitlist
                   </button>
