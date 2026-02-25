@@ -241,7 +241,7 @@ export default function SpaceHome() {
               <div className="text-yellow-500 text-4xl animate-float">🏆</div>
               <button 
                 onClick={handleWaitlistClick}
-                className="btn-glow bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-12 py-4 rounded-xl text-xl font-bold transition-all transform hover:scale-105 shadow-lg shadow-blue-500/30"
+                className="btn-glow bg-gray-900 hover:bg-gray-800 text-white px-12 py-4 rounded-xl text-xl font-bold transition-all transform hover:scale-105 shadow-xl shadow-gray-900/30"
               >
                 Waitlist
               </button>
@@ -301,7 +301,7 @@ export default function SpaceHome() {
             {/* Right: Waitlist Button */}
             <button
               onClick={handleWaitlistClick}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105"
+              className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-md"
             >
               Join Waitlist
             </button>
@@ -884,7 +884,7 @@ export default function SpaceHome() {
 
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg shadow-blue-500/30"
+                    className="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 rounded-lg font-bold transition-all transform hover:scale-105 shadow-lg"
                   >
                     Join Waitlist
                   </button>
